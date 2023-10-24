@@ -11,7 +11,6 @@ public:
 		it = Inimigos.begin();
 
 		if (!(*it)->getMecanico()) {
-			//auto* aux = reinterpret_cast<Guerreiro *>(*it);
 			auto* ref = dynamic_cast<Organico*>((*it));
 			ref->increaseBulbos();
 		}

@@ -114,16 +114,22 @@ int main() {
     fila1.push_back(new Soldado("Carlos",20,101,200,200,false));
 
     auto it = fila1.begin();
+    auto it2 = fila2.begin();
     std::cout << (*it)->getVida();
     std::cout << "\n" << (*it)->getNome();
 
     leituraDeArquivo(fila1,fila2);
+
     it = fila1.begin();
     while (it != fila1.end()){
         std::cout << "\nO nome do fei: " << (*it)->getClass();
         it++;
     }
-
+    it2 = fila2.begin();
+    while (it2 != fila2.end()){
+        std::cout << "\nO nome do fei 2: " << (*it2)->getClass();
+        it2++;
+    }
 
 	return 0;
 }
