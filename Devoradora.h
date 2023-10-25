@@ -13,11 +13,10 @@ public:
 		int dano = 0;
 
 		itDevoradora = Aliados.begin();
-		itSegundo = itDevoradora;
-		itSegundo++;// Vai para a segunda posição da fila
+		itSegundo = Aliados.begin() + 1;// Vai para a segunda posição da fila
 		itInimigo = Inimigos.begin();
 
-		if (itDevoradora == Aliados.end()) {
+		if (itDevoradora == Aliados.end() - 1) {
 			//Não existe ninguem para devorar...
 			dano = 0;
 		}
@@ -34,7 +33,7 @@ public:
 		}
 
 		(*itInimigo)->setVida((*itInimigo)->getVida() - dano);
-
+        Guerreiro::estourarBulbos(*itInimigo);
 	}
 	const char* getClass() override {
 		return "Devoradora";

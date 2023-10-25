@@ -15,9 +15,15 @@ public:
 		tormento = Aliados.begin();
 
 		(*inimigo)->setVida((*inimigo)->getVida() - danoTormento);
+        Guerreiro::estourarBulbos(*inimigo);
 		if (primeiro) {
 			
-			Aliados.insert(Aliados.begin(), gerarClone()); // Insere o clone na fila
+			Aliados.insert(Aliados.begin(), new Tormento(this->getNome(),
+                                                         this->getIdade(),
+                                                         this->getPeso(),
+                                                         50, // Vida inicial
+                                                         this->getVidaMax(),
+                                                         this->getMecanico())); // Insere o clone na fila
             // Envia o tormento para o fim
             Aliados.push_back(*tormento);
             Aliados.erase(tormento);
@@ -29,17 +35,5 @@ public:
 		return "Tormento";
 	}
 
-private:
-	Guerreiro * gerarClone() {
-		Tormento clone(
-			this->getNome(),
-			this->getIdade(),
-			this->getPeso(),
-			50, // Vida inicial
-			this->getVidaMax(),
-			this->getMecanico()
-		);
-			return &clone;
-	}
-	
+
 };

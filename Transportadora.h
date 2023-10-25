@@ -14,6 +14,7 @@ public:
 		it = Inimigos.begin();
 		
 		(*it)->setVida((*it)->getVida() - (danoTrans * contadorInterceptadores));
+        Guerreiro::estourarBulbos(*it);
 
 		if (contadorInterceptadores < 8) { contadorInterceptadores++; }
 

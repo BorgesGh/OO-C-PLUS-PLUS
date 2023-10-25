@@ -14,28 +14,23 @@ public:
 	void atacar(std::vector<Guerreiro*> &Aliados, std::vector<Guerreiro*> &Inimigos, bool primeiro) override {
         int sorteado = Random::randInt(100);
         std::vector<Guerreiro*>::iterator it;
-        it = Aliados.begin();
-
+        int i = 0;
         if (sorteado < 33) {
-            Zergnideo Z(this->getNome(), 0, 0, 50, 50, false);
-            for (int i = 0; i < 3; i++) {
-                Aliados.insert(it, &Z);
+            for ( i = 0; i < 3; i++) {
+                Aliados.push_back( new Zergnideo(this->getNome(), 0, 0, 50, 50, false));
             }
 
         }
         else if (sorteado < 66) {
-            TatuBomba T(this->getNome(), 0, 0, 50, 100, false);
-            for (int i = 0; i < 2; i++) {
-                Aliados.insert(it, &T);
+            for (i = 0; i < 2; i++) {
+                Aliados.push_back(new TatuBomba(this->getNome(), 0, 0, 50, 100, false));
             }
 
         }
         else {
-            Infestador I(this->getNome(), 0, 0, 100, 100, false);
-            Aliados.insert(it, &I);
+            Aliados.push_back( new Infestador(this->getNome(), 0, 0, 100, 100, false));
+
         }
-        Aliados.push_back(*it);
-        Aliados.erase(it);
     }
 	const char* getClass() override {
 		return "MestreDasCastas";

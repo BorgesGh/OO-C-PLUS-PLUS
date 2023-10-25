@@ -9,48 +9,41 @@ public:
 
 	void atacar(std::vector<Guerreiro*> &Aliados, std::vector<Guerreiro*> &Inimigos, bool primeiro) override {
 		std::vector<Guerreiro*>::iterator it;
-        std::vector<Guerreiro *>::iterator itTroca;
-		it = Aliados.begin();
+		it = Inimigos.begin();
 		if (primeiro) {
 
-            itTroca = Inimigos.begin();
-            Aliados.insert(Aliados.begin(), (*it));
-            Inimigos.erase(it);
 
+            Aliados.insert(Aliados.begin(), (*it));
+            Inimigos.erase(Inimigos.begin());
+
+            it = Aliados.begin();
 			//Agora o primeiro inimigo está na fila aliada
 			(*it)->atacar(Aliados, Inimigos,false);//Não considerei a manipulação do infestador como
 			//Primeiro ataque
 
-            itTroca = Aliados.begin();
             Inimigos.insert(Inimigos.begin(), (*it));
-            Aliados.erase(it);
+            Aliados.erase(Aliados.begin());
 			//O inimigo é devolvido para a sua respectiva fila
 
 		}
 		else {
-			Aliados.insert(it, gerarZergnideo());
+			Aliados.insert(Aliados.begin(), new Zergnideo(this->getNome(),
+                                                          this->getIdade(),
+                                                          this->getPeso(),
+                                                          50, // Vida inicial
+                                                          this->getVidaMax(),
+                                                          this->getMecanico()));
+            it = Aliados.begin() + 1;// Segundo da fila que é o infestador
             Aliados.push_back(*it);
-            Aliados.erase(it);
+            Aliados.erase(Aliados.begin() + 1);
 
 		}
+
 
 	}
 	const char* getClass() override {
 		return "Infestador";
 	}
 
-private:
-	
-	Guerreiro * gerarZergnideo() {
-		Zergnideo novo(
-			this->getNome(),
-			this->getIdade(),
-			this->getPeso(),
-			50, // Vida inicial
-			this->getVidaMax(),
-			this->getMecanico()
-		);
-		return &novo;
-	}
 };
 

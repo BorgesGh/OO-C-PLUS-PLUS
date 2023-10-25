@@ -15,6 +15,7 @@ add_executable(TestandoCoisas
         Fanaticus.h
         Fila.h
         Guerreiro.h
+        Guerreiro.cpp
         Infestador.h
         main.cpp
         Mecanico.h
@@ -34,4 +35,5 @@ add_executable(TestandoCoisas
         Zerguinideo.h
         lado1.txt
         lado2.txt
+        Guerreiro.cpp
 )

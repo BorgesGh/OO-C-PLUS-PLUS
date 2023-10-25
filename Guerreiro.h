@@ -1,7 +1,12 @@
 #pragma once
 #include <vector>
 #include <cstring>
+#include <iostream>
 #include "Object.h"
+
+class Organico;//Declaração adiantada
+//Usada para a classe Guerreiro conhecer a classe Organica sem problemas de include circular
+
 class Guerreiro : public Object {
 	/*
 	Um possivel problema que pode ocorrer é o fato do vector ser "Guerreiro" e não "Guerreiro*" */
@@ -43,16 +48,10 @@ public:
 	bool getMecanico() const {
 		return mecanico;
 	}
+    void toString() override{
+        std::cout << "\nNome: " << this->getNome() << " Vida: " << this->getVida() << " Tipo: " << this->getClass();
+    }
+    static void estourarBulbos(Guerreiro* inimigo);
 
 };
-Guerreiro::Guerreiro(const char *nome, int idade, double peso, double vida, double vidaMax, bool mecanico) {
-    strcpy(this->nome, nome);
-    this->idade = idade;
-    this->peso = peso;
-    this->vida = vida;
-    this->vidaMax = vidaMax;
-    this->mecanico = mecanico;
-}
-void Guerreiro::setVida(double valor) {
-    this->vida = valor;
-}
+

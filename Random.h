@@ -6,9 +6,10 @@
 class Random {
 public:
 	static int randInt(int max) {
-		unsigned seed = time(0);
-		srand(seed);
-		return 1 + ((int)(rand() % max)); //1 a max
+        std::srand(std::time(nullptr));
+
+        int numero_aleatorio = std::rand();
+        return std::rand() % max;
 
 	}
 	static int randBinarie() {

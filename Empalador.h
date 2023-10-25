@@ -15,9 +15,10 @@ public:
 		it = Inimigos.begin();
 
 		(*it)->setVida((*it)->getVida() - danoEmpala); // Atacar inimigo
+        Guerreiro::estourarBulbos(*it);
 
 		if (this->getVida() <= 100) {
-			if (!(itAliados == Aliados.end())) {
+			if (!(itAliados == (Aliados.end() - 1))) {//verificação se ele está sozinho
 				itAliados++;//Segundo Guerreiro da fila
 				Aliados.erase(itAliados);
 				this->setVida(this->getVidaMax());

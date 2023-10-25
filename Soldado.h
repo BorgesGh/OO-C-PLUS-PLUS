@@ -11,7 +11,7 @@ public:
 		std::vector<Guerreiro*>::iterator it;
 		it = Inimigos.begin();
 		(*it)->setVida((*it)->getVida() - danoSoldado);
-
+        Guerreiro::estourarBulbos(*it);
 	}
 	const char* getClass() override {
 		return "Soldado";

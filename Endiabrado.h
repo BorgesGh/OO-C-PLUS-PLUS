@@ -15,7 +15,7 @@ public:
 		it = Inimigos.begin();
 		while (contador != 3 && it != Inimigos.end()) {
 			(*it)->setVida((*it)->getVida() - (danoInicial - decremento));
-
+            Guerreiro::estourarBulbos(*it);
 			contador++;
 			decremento += 5;
 			it++;

@@ -14,8 +14,4 @@ public:
 	void increaseBulbos() {
 		contBulbos++;
 	}
-    void receberDanoBulbo(){
-        this->setVida(this->getVida() - contBulbos);
-    }
-
 };

@@ -14,9 +14,11 @@ public:
 
 		while (inimigo != Inimigos.end()) {
 			(*inimigo)->setVida((*inimigo)->getVida() - danoColosso);
-
+            Guerreiro::estourarBulbos(*inimigo);
+            inimigo++;
 		}
 		recuperacaoGelada(*this);
+
 	}
 	const char* getClass() override {
 		return "Colosso";

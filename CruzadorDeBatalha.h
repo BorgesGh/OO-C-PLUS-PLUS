@@ -17,13 +17,14 @@ public:
 		it = Inimigos.begin();
 		if (contadorFeixo == 2) {
 			(*it)->setVida((*it)->getVida() - (*it)->getVida());
+            Guerreiro::estourarBulbos(*it);
 			contadorFeixo = 0;
 		}
 		else {
 			(*it)->setVida((*it)->getVida() - danoCruzador);
+            Guerreiro::estourarBulbos(*it);
 			contadorFeixo++;
 		}
-
 
 	}
 	const char* getClass() override {

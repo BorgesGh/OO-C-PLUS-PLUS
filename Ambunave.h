@@ -24,6 +24,7 @@ public:
 			}
 			it++;
 		}
+
 	}
 	const char* getClass() override {
 		return "Ambunave";
