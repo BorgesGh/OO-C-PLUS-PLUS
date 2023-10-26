@@ -1,6 +1,6 @@
 #pragma once
-#include "Terrano.h"
-#include "Mecanico.h"
+#include "Tipos/Terrano/Terrano.h"
+#include "ClassesBase/Mecanico.h"
 #define danoInicial 15
 
 class Endiabrado : public Terrano, public Mecanico {

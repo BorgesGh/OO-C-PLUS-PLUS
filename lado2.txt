@@ -4,4 +4,4 @@
 4 ratyt 50 100
 5 long 98 123
 6 darlan 67 98
-7 cosmetico 23 100
+1 cosmetico 23 100

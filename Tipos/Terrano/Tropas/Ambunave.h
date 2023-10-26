@@ -1,6 +1,6 @@
 #pragma once
-#include "Mecanico.h"
-#include "Terrano.h"
+#include "ClassesBase/Mecanico.h"
+#include "Tipos/Terrano/Terrano.h"
 #define cura 50
 
 class Ambunave : public Terrano, public Mecanico {

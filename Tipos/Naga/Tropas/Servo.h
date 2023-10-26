@@ -1,6 +1,6 @@
 #pragma once
-#include "Organico.h"
-#include "Naga.h"
+#include "ClassesBase/Organico.h"
+#include "Tipos/Naga/Naga.h"
 class Servo : public Naga, public Organico {
 public:
 	Servo(char* nome, int idade, double peso, double vida, double vidaMax, bool mecanico) :

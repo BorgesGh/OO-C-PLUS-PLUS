@@ -1,5 +1,5 @@
 #pragma once
-#include "Guerreiro.h"
+#include "ClassesBase/Guerreiro.h"
 class Mecanico :public Guerreiro {
 	//A classe atualmente está vazia....
 	//Entretanto está disponivel para possiveis alterações futuras

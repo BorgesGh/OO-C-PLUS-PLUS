@@ -1,20 +1,20 @@
 #pragma once
-#include "Organico.h"
-#include "Zerg.h"
-#define danoZerg 5
-class Zergnideo : public Organico, public Zerg {
+#include "ClassesBase/Organico.h"
+#include "Tipos/Zerg/Zerg.h"
+#define danoTatu 100
+class TatuBomba : public Zerg,public Organico {
 public:
-	Zergnideo(char* nome, int idade, double peso, double vida, double vidaMax, bool mecanico) :
+	TatuBomba(char* nome, int idade, double peso, double vida, double vidaMax, bool mecanico) :
 		Organico(nome, idade, peso, vida, vidaMax, mecanico) {}
 
 	void atacar(std::vector<Guerreiro*> &Aliados, std::vector<Guerreiro*> &Inimigos, bool primeiro) override {
 		std::vector<Guerreiro*>::iterator it;
 		it = Inimigos.begin();
-		(*it)->setVida((*it)->getVida() - danoZerg);
+		(*it)->setVida((*it)->getVida() - danoTatu);
         Guerreiro::estourarBulbos(*it);
+		this->setVida(0);
 	}
 	const char* getClass() override {
-		return "Zerguinideo";
+		return "TatuBomba";
 	}
-
 };

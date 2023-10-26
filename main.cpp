@@ -1,7 +1,19 @@
 #include <vector>
-#include "Fila.h"
+#include "Tipos/Naga/Tropas/Devoradora.h"
+#include "Tipos/Naga/Tropas/Empalador.h"
+#include "Tipos/Naga/Tropas/Servo.h"
+#include "Tipos/Proton/Tropas/Colosso.h"
+#include "Tipos/Proton/Tropas/Fanaticus.h"
+#include "Tipos/Proton/Tropas/Tormento.h"
+#include "Tipos/Proton/Tropas/Transportadora.h"
+#include "Tipos/Terrano/Tropas/Ambunave.h"
+#include "Tipos/Terrano/Tropas/CruzadorDeBatalha.h"
+#include "Tipos/Terrano/Tropas/Endiabrado.h"
+#include "Tipos/Terrano/Tropas/Soldado.h"
+#include "Tipos/Zerg/Tropas/Infestador.h"
+#include "Tipos/Zerg/Tropas/MestreDasCastas.h"
+#include "Tipos/Zerg/Tropas/Tatu-Bomba.h"
 #include "Random.h"
-#include <fstream>
 #include <fstream>
 
 static void goBack(std::vector<Guerreiro *> &Aliados){
@@ -17,12 +29,45 @@ void limparFila(std::vector<Guerreiro *> &fila){
             fila.erase(it);
             it = fila.begin();
         }
-        else{
-            it++;
-        }
+        it++;
     }
-
 }
+
+double contarPesos(std::vector<Guerreiro *> &fila){
+    auto it = fila.begin();
+    double contador = 0;
+    while(it != fila.end()){
+        contador += (*it)->getPeso();
+        it++;
+    }
+    return contador;
+}
+char* maisVelho(std::vector<Guerreiro *> &fila,std::vector<Guerreiro *> &fila2){
+    auto it = fila.begin();
+
+    int maiorIdade = (*it)->getIdade();
+    char* nomeMaisVelho = new char[30];
+    strcpy(nomeMaisVelho,(*it)->getNome());
+    while(it != fila.end()){
+        if(maiorIdade < (*it)->getIdade()){
+            //Existe outro maior
+            maiorIdade = (*it)->getIdade();
+            strcpy(nomeMaisVelho,(*it)->getNome());
+        }
+        it++;
+    }
+    it = fila2.begin();
+    while(it != fila2.end()){
+        if(maiorIdade < (*it)->getIdade()){
+            //Existe outro maior
+            maiorIdade = (*it)->getIdade();
+            strcpy(nomeMaisVelho,(*it)->getNome());
+        }
+        it++;
+    }
+    return nomeMaisVelho;
+}
+
 //Execeções
 bool InfestadorEAmbunave(std::vector<Guerreiro *> &TerranosProtos, std::vector<Guerreiro *> &ZergNagas){
     auto it = TerranosProtos.begin();
@@ -54,9 +99,6 @@ bool InfestadorEAmbunave(std::vector<Guerreiro *> &TerranosProtos, std::vector<G
 void leituraDeArquivo(std::vector<Guerreiro *> &TerranosProtos, std::vector<Guerreiro *> &ZergNagas) {
     Guerreiro *novo;
     std::fstream arquivo(R"(C:\Projetos C++\TestandoCoisas\lado1.txt)");
-    if(arquivo.is_open()){
-        std:: cout << "\nArquivo abriu!\n";
-    }
     int tipo;
     char nome[30];
     int idade;
@@ -109,9 +151,6 @@ void leituraDeArquivo(std::vector<Guerreiro *> &TerranosProtos, std::vector<Guer
     arquivo.close();
     //===== ZERGS E NAGAS =======
     std::fstream arquivo2(R"(C:\Projetos C++\TestandoCoisas\lado2.txt)");
-    if(arquivo2.is_open()){
-        std:: cout << "\nArquivo abriu!\n";
-    }
     while (!arquivo2.eof()) {
         arquivo2 >> tipo >> nome >> idade >> peso;
 
@@ -152,6 +191,7 @@ void leituraDeArquivo(std::vector<Guerreiro *> &TerranosProtos, std::vector<Guer
 
         }//switch
     }//while
+    arquivo2.close();
 }//leituraDeArquivo
 
 int verificarFim(std::vector<Guerreiro *> &TerranosProtos, std::vector<Guerreiro *> &ZergNagas){
@@ -192,7 +232,14 @@ int main() {
 
     std::vector<Guerreiro*> TerranosProtos;
     std::vector<Guerreiro*> ZergNagas;
+
     leituraDeArquivo(TerranosProtos,ZergNagas);
+
+    double PesosTerranos = contarPesos(TerranosProtos);
+    double PesosZergs = contarPesos(ZergNagas);
+
+    auto nomeMaisVelho = maisVelho(TerranosProtos, ZergNagas);
+
     int situacao = 0;
 
     auto itTerranoProton = TerranosProtos.begin();
@@ -202,12 +249,10 @@ int main() {
         if(Random::randInt(100) < 50) {
             (*itTerranoProton)->atacar(TerranosProtos, ZergNagas,true);
             //Atualização de ponteiros
-            itTerranoProton = TerranosProtos.begin();
             itZergNagas = ZergNagas.begin();
 
             if((*itZergNagas)->getVida() > 0){
                 //Atualização de ponteiros
-                itTerranoProton = TerranosProtos.begin();
                 itZergNagas = ZergNagas.begin();
 
                 (*itZergNagas)->atacar(ZergNagas, TerranosProtos,false);
@@ -217,26 +262,19 @@ int main() {
             (*itZergNagas)->atacar(ZergNagas, TerranosProtos,true);
             //Atualização de ponteiros
             itTerranoProton = TerranosProtos.begin();
-            itZergNagas = ZergNagas.begin();
 
             if((*itTerranoProton)->getVida() > 0){
                 //Atualização de ponteiros
                 itTerranoProton = TerranosProtos.begin();
-                itZergNagas = ZergNagas.begin();
 
                 (*itTerranoProton)->atacar(TerranosProtos,ZergNagas,false);
             }
         }
-        //Atualização de ponteiros
-        itTerranoProton = TerranosProtos.begin();
-        itZergNagas = ZergNagas.begin();
-
-        goBack(TerranosProtos);
-        goBack(ZergNagas);
-
         situacao = verificarFim(TerranosProtos,ZergNagas);
         if(!situacao){
-            //Enquanto o jogo continua, pode-se limpar a fila
+            //Enquanto o jogo continua, pode-se limpar a fila e ordenar os guerreiros
+            goBack(TerranosProtos);
+            goBack(ZergNagas);
             limparFila(TerranosProtos);
             limparFila(ZergNagas);
         }
@@ -244,24 +282,29 @@ int main() {
         itTerranoProton = TerranosProtos.begin();
         itZergNagas = ZergNagas.begin();
 
-        (*itTerranoProton)->toString();
-        (*itZergNagas)->toString();
     }//While
 
+    printf("\nTerranos e Protons pesam: %.2f unidades", PesosTerranos);
+    printf("\nZergs e Nagas pesam: %.2f unidades", PesosZergs);
+
+    printf("\n%s eh o mais velho!",nomeMaisVelho);
+
     if(situacao == 1){
-        std::cout << "Terranos e Protons Venceram!!";
-        std::cout << "\n" <<(*itZergNagas)->getNome() << ", " << (*itZergNagas)->getIdade() << ", " << (*itZergNagas)->getPeso();
-        std::cout << "\n" <<(*itTerranoProton)->getNome() << ", " << (*itTerranoProton)->getIdade() << ", " << (*itTerranoProton)->getPeso();
+        std::cout << "\nTerranos e Protons Venceram!!";
+        printf("\n%s, %d, %.2f",(*itZergNagas)->getNome(),(*itZergNagas)->getIdade(),(*itZergNagas)->getPeso());
+        printf("\n%s, %d, %.2f",(*itTerranoProton)->getNome(),(*itTerranoProton)->getIdade(),(*itTerranoProton)->getPeso());
+
     }
     else if(situacao == -1){
         std::cout << "\nZergs e Nagas Venceram!!";
-        std::cout << "\n" << (*itTerranoProton)->getNome() << ", " << (*itTerranoProton)->getIdade() << ", " << (*itTerranoProton)->getPeso();
-        std::cout << "\n" <<(*itZergNagas)->getNome() << ", " << (*itZergNagas)->getIdade() << ", " << (*itZergNagas)->getPeso();
+        printf("\n%s, %d, %.2f",(*itTerranoProton)->getNome(),(*itTerranoProton)->getIdade(),(*itTerranoProton)->getPeso());
+        printf("\n%s, %d, %.2f",(*itZergNagas)->getNome(),(*itZergNagas)->getIdade(),(*itZergNagas)->getPeso());
     }
     else{
         std::cout << "\nHouve um empate!, As filas só contem Infestador(es) e Ambunave(s)";
     }
-
+    printf("\n");
+    system("pause");
 	return 0;
 }
 

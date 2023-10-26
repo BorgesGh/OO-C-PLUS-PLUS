@@ -1,5 +1,5 @@
 #pragma once
-#include "Guerreiro.h"
+#include "ClassesBase/Guerreiro.h"
 class Organico :public Guerreiro{
 	//Organico é a tropa não mecânica
 private:

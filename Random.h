@@ -8,8 +8,9 @@ public:
 	static int randInt(int max) {
         std::srand(std::time(nullptr));
 
-        int numero_aleatorio = std::rand();
-        return std::rand() % max;
+        int numero_aleatorio = (std::rand());
+        int result = (int)numero_aleatorio % max;
+        return  result;
 
 	}
 	static int randBinarie() {

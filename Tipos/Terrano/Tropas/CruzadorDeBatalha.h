@@ -1,6 +1,6 @@
 #pragma once
-#include "Terrano.h"
-#include "Mecanico.h"
+#include "Tipos/Terrano/Terrano.h"
+#include "ClassesBase/Mecanico.h"
 #define danoCruzador 50
 class Cruzador : public Terrano, public Mecanico {
 private:

@@ -1,6 +1,6 @@
 #pragma once
-#include "Proton.h"
-#include "Mecanico.h"
+#include "Tipos/Proton/Proton.h"
+#include "ClassesBase/Mecanico.h"
 #define danoColosso 20
 class Colosso :public Proton, public Mecanico {
 

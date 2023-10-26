@@ -1,5 +1,5 @@
 #pragma once
-#include "Guerreiro.h"
+#include "ClassesBase/Guerreiro.h"
 class Proton {
 protected:
 	void recuperacaoGelada(Guerreiro& Proton) {

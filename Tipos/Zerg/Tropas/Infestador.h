@@ -1,7 +1,7 @@
 #pragma once
-#include "Organico.h"
-#include "Zerguinideo.h"
-#include "Zerg.h"
+#include "ClassesBase/Organico.h"
+#include "Tipos/Zerg/Tropas/Zerguinideo.h"
+#include "Tipos/Zerg/Zerg.h"
 class Infestador : public Organico, public Zerg  {
 public:
 	Infestador(char* nome, int idade, double peso, double vida, double vidaMax, bool mecanico) :
@@ -9,11 +9,9 @@ public:
 
 	void atacar(std::vector<Guerreiro*> &Aliados, std::vector<Guerreiro*> &Inimigos, bool primeiro) override {
 		std::vector<Guerreiro*>::iterator it;
-		it = Inimigos.begin();
 		if (primeiro) {
 
-
-            Aliados.insert(Aliados.begin(), (*it));
+            Aliados.insert(Aliados.begin(), *(Inimigos.begin()));
             Inimigos.erase(Inimigos.begin());
 
             it = Aliados.begin();
@@ -21,7 +19,7 @@ public:
 			(*it)->atacar(Aliados, Inimigos,false);//Não considerei a manipulação do infestador como
 			//Primeiro ataque
 
-            Inimigos.insert(Inimigos.begin(), (*it));
+            Inimigos.insert(Inimigos.begin(), (*(Aliados.begin())));
             Aliados.erase(Aliados.begin());
 			//O inimigo é devolvido para a sua respectiva fila
 
@@ -31,15 +29,13 @@ public:
                                                           this->getIdade(),
                                                           this->getPeso(),
                                                           50, // Vida inicial
-                                                          this->getVidaMax(),
+                                                          100,
                                                           this->getMecanico()));
             it = Aliados.begin() + 1;// Segundo da fila que é o infestador
             Aliados.push_back(*it);
             Aliados.erase(Aliados.begin() + 1);
 
 		}
-
-
 	}
 	const char* getClass() override {
 		return "Infestador";

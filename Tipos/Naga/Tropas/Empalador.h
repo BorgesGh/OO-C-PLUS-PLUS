@@ -1,6 +1,6 @@
 #pragma once
-#include "Organico.h"
-#include "Naga.h"
+#include "ClassesBase/Organico.h"
+#include "Tipos/Naga/Naga.h"
 #define danoEmpala 50
 class Empalador : public Organico, public Naga {
 public:
