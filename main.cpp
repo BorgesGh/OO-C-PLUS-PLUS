@@ -69,31 +69,16 @@ char* maisVelho(std::vector<Guerreiro *> &fila,std::vector<Guerreiro *> &fila2){
 }
 
 //Execeções
-bool InfestadorEAmbunave(std::vector<Guerreiro *> &TerranosProtos, std::vector<Guerreiro *> &ZergNagas){
-    auto it = TerranosProtos.begin();
-    auto it2 = ZergNagas.begin();
-
-    int contOutroTipo = 0;
-
-    while(it != TerranosProtos.end()){
-        if((strcmp((*it)->getClass(),"Ambunave")) != 0){
-            //Existem outros tipo além da ambunave
-            contOutroTipo++;
-        }
-        it++;
+void filaPassiva(std::vector<Guerreiro *> &TerranosProtos, std::vector<Guerreiro *> &ZergNagas,
+                 double vidaDoPrimeiroTP, double vidaDoPrimeiroZG,int& contSemDano){
+    if(vidaDoPrimeiroTP != (*TerranosProtos.begin())->getVida()
+    || vidaDoPrimeiroZG != (*ZergNagas.begin())->getVida()){
+        //Se as vidas são diferentes, logo ou houve movimentação de dano
+        contSemDano = 0;
     }
-    while(it2 != ZergNagas.end()){
-        if((strcmp((*it2)->getClass(),"Infestador")) != 0){
-            //Existem outros tipos além do Infestador
-            contOutroTipo++;
-        }
-        it2++;
+    else{
+        contSemDano += 1;
     }
-    if(!contOutroTipo) {
-        //Só existem Infestadores e ambunaves
-        return true;
-    }
-    return false;
 }
 
 void leituraDeArquivo(std::vector<Guerreiro *> &TerranosProtos, std::vector<Guerreiro *> &ZergNagas) {
@@ -198,10 +183,6 @@ int verificarFim(std::vector<Guerreiro *> &TerranosProtos, std::vector<Guerreiro
     auto it = TerranosProtos.begin();
     auto it2 = ZergNagas.begin();
 
-    if(InfestadorEAmbunave(TerranosProtos, ZergNagas)){
-        //Só tem ambunaves e infestador
-        return 2; // Empate
-    }
     int contVivosTerranos = 0;
     int contVivosNagas = 0;
     while(it != TerranosProtos.end()){
@@ -216,6 +197,10 @@ int verificarFim(std::vector<Guerreiro *> &TerranosProtos, std::vector<Guerreiro
             contVivosNagas++;
         }
         it2++;
+    }
+    if(!contVivosNagas && !contVivosTerranos){
+        //Houve um empate!
+        return 2;
     }
     if(contVivosNagas > 0 && !contVivosTerranos){
         //Os nagas venceram!
@@ -238,6 +223,10 @@ int main() {
     double PesosTerranos = contarPesos(TerranosProtos);
     double PesosZergs = contarPesos(ZergNagas);
 
+    double vidaFila1;
+    double vidaFila2;
+    int contSemDano = 0;//Contador de interações que a fila não aplicou dano
+
     auto nomeMaisVelho = maisVelho(TerranosProtos, ZergNagas);
 
     int situacao = 0;
@@ -246,6 +235,9 @@ int main() {
     auto itZergNagas = ZergNagas.begin();
 
     while(!situacao){
+        vidaFila1 = (*TerranosProtos.begin())->getVida();
+        vidaFila2 = (*ZergNagas.begin())->getVida();
+
         if(Random::randInt(100) < 50) {
             (*itTerranoProton)->atacar(TerranosProtos, ZergNagas,true);
             //Atualização de ponteiros
@@ -270,7 +262,15 @@ int main() {
                 (*itTerranoProton)->atacar(TerranosProtos,ZergNagas,false);
             }
         }
+        //Compara com a nova vida dos guerreiros....
+        filaPassiva(TerranosProtos,ZergNagas,vidaFila1,vidaFila2,contSemDano);
         situacao = verificarFim(TerranosProtos,ZergNagas);
+
+        if(contSemDano >= std::max(TerranosProtos.size(),ZergNagas.size())){
+            //A fila ja houve todas as interações e não houve dano
+            situacao = 2; //Empate!
+        }
+
         if(!situacao){
             //Enquanto o jogo continua, pode-se limpar a fila e ordenar os guerreiros
             goBack(TerranosProtos);
@@ -301,7 +301,7 @@ int main() {
         printf("\n%s, %d, %.2f",(*itZergNagas)->getNome(),(*itZergNagas)->getIdade(),(*itZergNagas)->getPeso());
     }
     else{
-        std::cout << "\nHouve um empate!, As filas só contem Infestador(es) e Ambunave(s)";
+        std::cout << "\nHouve um empate!";
     }
     printf("\n");
     system("pause");

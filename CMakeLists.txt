@@ -38,5 +38,7 @@ add_executable(TestandoCoisas
         ClassesBase/Guerreiro.cpp
         Tipos/Proton/Tropas/CloneTormento.h
         Tipos/Proton/Tropas/Tormento.cpp
+        FilaController.cpp
+        FilaController.h
 
 )
