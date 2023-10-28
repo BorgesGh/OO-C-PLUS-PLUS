@@ -16,6 +16,7 @@ void Tormento::atacar(std::vector<Guerreiro *> &Aliados, std::vector<Guerreiro *
                                                      this->getVidaMax(),
                                                      this->getMecanico())); // Insere o clone na fila
         // Envia o tormento para o fim
+
         Aliados.push_back(*(Aliados.begin() + 1));
         Aliados.erase(Aliados.begin() + 1);
 

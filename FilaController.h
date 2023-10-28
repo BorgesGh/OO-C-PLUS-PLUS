@@ -24,12 +24,38 @@ private:
     double PesosTerranos;
     double PesosZergs;
 
-    double vidaFila1;
+    double vidaFila1; // marcador de vida
     double vidaFila2;
 
     int contSemDano;
-    int situacao;
+    int situacao; // vitoria, derrota e empate
 
     char* nomeMaisVelho;
+
+public:
+    FilaController(){
+        leituraDeArquivo();
+        PesosTerranos = contarPesos(TerranosProtos);
+        PesosZergs = contarPesos(ZergNagas);
+        nomeMaisVelho = maisVelho();
+        vidaFila2 = 0;
+        vidaFila1 = 0;
+        situacao = 0;
+        contSemDano = 0;
+    }
+
+    void executar();
+    static void goBack(std::vector<Guerreiro *> &Aliados);
+
+private:
+    double contarPesos(std::vector<Guerreiro *> &fila);
+    void leituraDeArquivo();
+    char* maisVelho();
+    void limparFila(std::vector<Guerreiro *> &fila);
+    void filaPassiva(double vidaDoPrimeiroTP, double vidaDoPrimeiroZG);
+    int verificarFim();
+    void imprimirResultado();
+
 };
+
 
