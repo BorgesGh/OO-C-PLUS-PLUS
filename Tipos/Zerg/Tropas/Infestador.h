@@ -11,16 +11,17 @@ public:
 		std::vector<Guerreiro*>::iterator it;
 		if (primeiro) {
 
-            Aliados.insert(Aliados.begin(), *(Inimigos.begin()));
-            Inimigos.erase(Inimigos.begin());
+            trocarGuerreiroLista(Aliados,Inimigos);
 
             it = Aliados.begin();
 			//Agora o primeiro inimigo está na fila aliada
-			(*it)->atacar(Aliados, Inimigos,false);//Não considerei a manipulação do infestador como
-			//Primeiro ataque
-
-            Inimigos.insert(Inimigos.begin(), (*(Aliados.begin())));
-            Aliados.erase(Aliados.begin());
+            try {
+                (*it)->atacar(Aliados, Inimigos, false);//Não considerei a manipulação do infestador como
+                //Primeiro ataque
+            }catch(const std::exception& erro){
+                //A fila do outro lado pode estar vazia...
+            };
+            trocarGuerreiroLista(Inimigos,Aliados);
 			//O inimigo é devolvido para a sua respectiva fila
 
 		}
@@ -40,6 +41,11 @@ public:
 	const char* getClass() override {
 		return "Infestador";
 	}
+private:
+    static void trocarGuerreiroLista(std::vector<Guerreiro*> &Aliados, std::vector<Guerreiro*> &Inimigos){
+        Aliados.insert(Aliados.begin(), *(Inimigos.begin()));
+        Inimigos.erase(Inimigos.begin());
+    }
 
 };
 
