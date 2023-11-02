@@ -40,5 +40,6 @@ add_executable(TestandoCoisas
         Tipos/Proton/Tropas/Tormento.cpp
         FilaController.cpp
         FilaController.h
+        nullQueryException.h
 
 )

@@ -2,6 +2,8 @@
 #include "ClassesBase/Organico.h"
 #include "Tipos/Zerg/Tropas/Zerguinideo.h"
 #include "Tipos/Zerg/Zerg.h"
+#include "nullQueryException.h"
+
 class Infestador : public Organico, public Zerg  {
 public:
 	Infestador(char* nome, int idade, double peso, double vida, double vidaMax, bool mecanico) :
@@ -16,6 +18,9 @@ public:
             it = Aliados.begin();
 			//Agora o primeiro inimigo está na fila aliada
             try {
+                if (!(strcmp((*it)->getClass(),"Ambunave")) && Inimigos.empty()) {
+                    throw nullQueryException("Tentativa de atacar diretamente uma fila null!");
+                }
                 (*it)->atacar(Aliados, Inimigos, false);//Não considerei a manipulação do infestador como
                 //Primeiro ataque
             }catch(const std::exception& erro){
