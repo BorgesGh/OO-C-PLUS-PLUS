@@ -48,10 +48,10 @@ public:
     static void goBack(std::vector<Guerreiro *> &Aliados);
 
 private:
-    double contarPesos(std::vector<Guerreiro *> &fila);
+    static double contarPesos(std::vector<Guerreiro *> &fila);
     void leituraDeArquivo();
     char* maisVelho();
-    void limparFila(std::vector<Guerreiro *> &fila);
+    static void limparFila(std::vector<Guerreiro *> &fila);
     void filaPassiva(double vidaDoPrimeiroTP, double vidaDoPrimeiroZG);
     int verificarFim();
     void imprimirResultado();
